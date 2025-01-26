@@ -46,10 +46,130 @@ Before beginning the integration, ensure you have the following:
 
 ---
 
+Got it! Below is the updated and **generic categorization** of Google Cloud services based on whether they require **infrastructure setup** or are **serverless**. This will help you better understand how to integrate Dynatrace with different types of GCP services.
+
+---
+
 ## Step 4: Enable Monitoring for Google Cloud Services
+
+### **A. Serverless Services**
+Serverless services are fully managed by Google Cloud, and you do not need to provision or manage underlying infrastructure. Dynatrace can monitor these services using **Google Cloud Monitoring (formerly Stackdriver)** metrics and logs.
+
+#### **Examples of Serverless Services**:
+1. **Cloud Functions**:
+   - Dynatrace can monitor execution times, invocation counts, and errors.
+   - Use Google Cloud Monitoring to export metrics to Dynatrace.
+2. **Cloud Run**:
+   - Monitor request latency, CPU utilization, and memory usage.
+   - Enable Google Cloud Monitoring integration in Dynatrace.
+3. **App Engine**:
+   - Monitor application performance, request counts, and error rates.
+   - Use Google Cloud Monitoring to collect and export metrics.
+4. **Cloud Pub/Sub**:
+   - Monitor message throughput, backlog, and delivery latency.
+   - Export metrics to Dynatrace via Google Cloud Monitoring.
+
+#### **Steps for Serverless Services**:
 1. In Dynatrace, go to **Technologies** > **Google Cloud Platform**.
-2. Enable monitoring for the Google Cloud services you want to monitor (e.g., Compute Engine, Cloud Storage, BigQuery, etc.).
-3. Dynatrace will automatically start collecting metrics and logs from the configured services.
+2. Enable monitoring for the specific serverless service (e.g., Cloud Functions, Cloud Run).
+3. Use **Google Cloud Monitoring** to collect custom metrics and export them to Dynatrace via the API.
+4. Set up alerts in Dynatrace based on the collected metrics.
+
+---
+
+### **B. Services Requiring Infrastructure Setup**
+These services require you to provision and manage underlying infrastructure (e.g., VMs, clusters). Dynatrace monitoring for these services typically involves installing the **Dynatrace OneAgent** on the infrastructure.
+
+#### **Examples of Services Requiring Infrastructure Setup**:
+1. **Compute Engine (VMs)**:
+   - Install the Dynatrace OneAgent on each VM to monitor CPU, memory, disk, and network usage.
+   - Enable infrastructure monitoring in Dynatrace.
+2. **Google Kubernetes Engine (GKE)**:
+   - Install the Dynatrace OneAgent on the worker nodes.
+   - Use Dynatrace's Kubernetes monitoring to track cluster health, pod performance, and resource utilization.
+3. **Dataproc**:
+   - Install the Dynatrace OneAgent on the Dataproc cluster nodes.
+   - Monitor cluster performance, job execution, and resource usage.
+4. **Cloud SQL**:
+   - Install the Dynatrace OneAgent on the Compute Engine instances hosting Cloud SQL proxies (if applicable).
+   - Monitor database performance, query execution times, and connection counts.
+5. **BigQuery**:
+   - BigQuery is serverless, but you can monitor query performance and slot usage using **Google Cloud Monitoring**.
+   - Export these metrics to Dynatrace via the API.
+6. **Dataflow**:
+   - Monitor job performance, resource usage, and pipeline latency.
+   - Use Google Cloud Monitoring to export metrics to Dynatrace.
+7. **Cloud Storage**:
+   - Monitor bucket usage, object counts, and access patterns.
+   - Use Google Cloud Monitoring to export metrics to Dynatrace.
+
+#### **Steps for Services Requiring Infrastructure Setup**:
+1. **Install Dynatrace OneAgent**:
+   - For Compute Engine, GKE, Dataproc, and other infrastructure-based services, install the Dynatrace OneAgent on the underlying VMs or nodes.
+2. **Enable Monitoring in Dynatrace**:
+   - Go to **Technologies** > **Google Cloud Platform** and enable monitoring for the specific service (e.g., Compute Engine, GKE).
+3. **Use Google Cloud Monitoring for Additional Metrics**:
+   - For services like BigQuery and Cloud Storage, use Google Cloud Monitoring to collect metrics and export them to Dynatrace.
+4. **Set Up Alerts**:
+   - Define alerting rules in Dynatrace based on the collected metrics (e.g., high CPU usage, query performance degradation).
+
+---
+
+### **C. Hybrid Services**
+Some services may have both serverless and infrastructure-based components. For example:
+- **Anthos**: Combines GKE (infrastructure) with serverless capabilities.
+- **AI Platform**: Uses Compute Engine for training jobs (infrastructure) but offers serverless prediction endpoints.
+
+#### **Steps for Hybrid Services**:
+1. Identify the infrastructure and serverless components of the service.
+2. For infrastructure components, install the Dynatrace OneAgent.
+3. For serverless components, use Google Cloud Monitoring to collect metrics and export them to Dynatrace.
+4. Set up unified alerting in Dynatrace for both components.
+
+---
+
+## Block Diagram: Categorization of GCP Services
+
+```
++-----------------------------+
+|   Google Cloud Services     |
++-----------------------------+
+|                             |
+| +-------------------------+ |
+| | Serverless Services     | |
+| +-------------------------+ |
+| | - Cloud Functions       | |
+| | - Cloud Run             | |
+| | - App Engine            | |
+| | - Cloud Pub/Sub         | |
+| +-------------------------+ |
+|                             |
+| +-------------------------+ |
+| | Infrastructure Services | |
+| +-------------------------+ |
+| | - Compute Engine        | |
+| | - GKE                   | |
+| | - Dataproc              | |
+| | - Cloud SQL             | |
+| | - Dataflow              | |
+| +-------------------------+ |
+|                             |
+| +-------------------------+ |
+| | Hybrid Services         | |
+| +-------------------------+ |
+| | - Anthos                | |
+| | - AI Platform           | |
+| +-------------------------+ |
+|                             |
++-----------------------------+
+```
+
+---
+
+## Summary
+- **Serverless Services**: Use Google Cloud Monitoring to collect metrics and export them to Dynatrace.
+- **Infrastructure Services**: Install the Dynatrace OneAgent on the underlying infrastructure.
+- **Hybrid Services**: Combine both approaches based on the service components.
 
 ---
 
